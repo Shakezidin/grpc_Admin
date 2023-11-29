@@ -31,7 +31,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
 	FetchAllSUser(ctx context.Context, in *FetchUsers, opts ...grpc.CallOption) (*LoginResponce, error)
-	DeleteUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*Result, error)
+	DeleteUser(ctx context.Context, in *DeleteUserById, opts ...grpc.CallOption) (*Result, error)
 	CreateUser(ctx context.Context, in *UserCreate, opts ...grpc.CallOption) (*Result, error)
 	SearchUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*SearchResponse, error)
 	EditUser(ctx context.Context, in *Users, opts ...grpc.CallOption) (*UserResponse, error)
@@ -54,7 +54,7 @@ func (c *userServiceClient) FetchAllSUser(ctx context.Context, in *FetchUsers, o
 	return out, nil
 }
 
-func (c *userServiceClient) DeleteUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*Result, error) {
+func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserById, opts ...grpc.CallOption) (*Result, error) {
 	out := new(Result)
 	err := c.cc.Invoke(ctx, UserService_DeleteUser_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -95,7 +95,7 @@ func (c *userServiceClient) EditUser(ctx context.Context, in *Users, opts ...grp
 // for forward compatibility
 type UserServiceServer interface {
 	FetchAllSUser(context.Context, *FetchUsers) (*LoginResponce, error)
-	DeleteUser(context.Context, *UserRequest) (*Result, error)
+	DeleteUser(context.Context, *DeleteUserById) (*Result, error)
 	CreateUser(context.Context, *UserCreate) (*Result, error)
 	SearchUser(context.Context, *UserRequest) (*SearchResponse, error)
 	EditUser(context.Context, *Users) (*UserResponse, error)
@@ -109,7 +109,7 @@ type UnimplementedUserServiceServer struct {
 func (UnimplementedUserServiceServer) FetchAllSUser(context.Context, *FetchUsers) (*LoginResponce, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FetchAllSUser not implemented")
 }
-func (UnimplementedUserServiceServer) DeleteUser(context.Context, *UserRequest) (*Result, error) {
+func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserById) (*Result, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 func (UnimplementedUserServiceServer) CreateUser(context.Context, *UserCreate) (*Result, error) {
@@ -153,7 +153,7 @@ func _UserService_FetchAllSUser_Handler(srv interface{}, ctx context.Context, de
 }
 
 func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UserRequest)
+	in := new(DeleteUserById)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -165,7 +165,7 @@ func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: UserService_DeleteUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).DeleteUser(ctx, req.(*UserRequest))
+		return srv.(UserServiceServer).DeleteUser(ctx, req.(*DeleteUserById))
 	}
 	return interceptor(ctx, in, info, handler)
 }

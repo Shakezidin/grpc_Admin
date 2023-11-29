@@ -6,7 +6,7 @@ option go_package = "github.com/shakezidin/pkg/user";
 
 service UserService{
     rpc FetchAllSUser(FetchUsers) returns(LoginResponce);
-    rpc DeleteUser(UserRequest) returns(Result);
+    rpc DeleteUser(DeleteUserById) returns(Result);
     rpc CreateUser(UserCreate) returns(Result);
     rpc SearchUser(UserRequest) returns (SearchResponse);
     rpc EditUser(Users)  returns (UserResponse);
@@ -32,6 +32,10 @@ message LoginResponce {
 
 message UserRequest {
     string username = 1;
+}
+
+message DeleteUserById{
+    uint64 Id = 1;
 }
 
 message Result{

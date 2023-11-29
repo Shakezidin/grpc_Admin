@@ -2,9 +2,11 @@ package interfaces
 
 import (
 	adminpb "github.com/shakezidin/pkg/pb/pb"
-	userpb "github.com/shakezidin/pkg/user/pb/pb"
 )
 
 type AdminServiceInter interface {
-	AdminLogin(admn *adminpb.LoginRequest, client userpb.UserServiceClient) (*adminpb.LoginResponce, error)
+	AdminLogin(admn *adminpb.LoginRequest) (*adminpb.LoginResponce, error)
+	CreateService(p *adminpb.User) (*adminpb.UserResponse, error)
+	DeleteService(p *adminpb.DeleteUserRequest)(*adminpb.UserResponse,error)
+	SearchUserService(p *adminpb.UserRequest) (*adminpb.SearchResponse, error)
 }

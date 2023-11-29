@@ -15,7 +15,8 @@ type AdminServices struct {
 	adminRepo Repointer.AdminRepoInter
 }
 
-func (a *AdminServices) AdminLogin(admn *adminpb.LoginRequest, client userpb.UserServiceClient) (*adminpb.LoginResponce, error) {
+func (a *AdminServices) AdminLogin(admn *adminpb.LoginRequest) (*adminpb.LoginResponce, error) {
+	var client userpb.UserServiceClient
 	admin, err := a.adminRepo.FetchAdmin(admn.Username)
 	if err != nil {
 		return nil, err
@@ -41,6 +42,55 @@ func (a *AdminServices) AdminLogin(admn *adminpb.LoginRequest, client userpb.Use
 		Token:     result.Token,
 	}
 	return rstl, nil
+}
+
+func (a *AdminServices) CreateService(p *adminpb.User) (*adminpb.UserResponse, error) {
+	var client userpb.UserServiceClient
+	result, err := user.CreateUser(client, p)
+	if err != nil {
+		return nil, err
+	}
+	rslt := &adminpb.UserResponse{
+		Status:   result.Status,
+		Username: result.Message,
+	}
+	return rslt, nil
+}
+
+func (a *AdminServices) DeleteService(p *adminpb.DeleteUserRequest) (*adminpb.UserResponse, error) {
+	var client userpb.UserServiceClient
+	result, err := user.DeleteUser(client, p.Id)
+	if err != nil {
+		return nil, err
+	}
+	rslt := &adminpb.UserResponse{
+		Status:   result.Status,
+		Username: result.Message,
+	}
+	return rslt, nil
+}
+
+func (a *AdminServices) SearchUserService(p *adminpb.UserRequest) (*adminpb.SearchResponse, error) {
+	var client userpb.UserServiceClient
+	result, err := user.SearchUser(client, p)
+	if err != nil {
+		return nil, err
+	}
+	var users []*adminpb.User
+	for _, i := range result.Available {
+		users = append(users, &adminpb.User{
+			Id:       i.Id,
+			Username: i.Username,
+			Name:     i.Name,
+			Email:    i.Email,
+			Password: i.Password,
+		})
+	}
+	rslt := &adminpb.SearchResponse{
+		Status:    result.Status,
+		Available: users,
+	}
+	return rslt, nil
 }
 
 func AdminRepository(repo Repointer.AdminRepoInter) interfaces.AdminServiceInter {
