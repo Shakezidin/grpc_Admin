@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "github.com/shakezidin/pkg/user";
+
+service UserService{
+    rpc FetchAllSUser(FetchUsers) returns(LoginResponce);
+    rpc DeleteUser(UserRequest) returns(Result);
+    rpc CreateUser(UserCreate) returns(Result);
+    rpc SearchUser(UserRequest) returns (SearchResponse);
+    rpc EditUser(Users)  returns (UserResponse);
+}
+
+message FetchUsers {
+ 
+}
+
+message Users {
+    uint64 id = 1;
+    string username = 2;
+    string name = 3;
+    string email = 4;
+    string password = 5;
+}
+
+message LoginResponce {
+    string status = 1;
+    repeated Users available = 2;
+    string token = 3;
+}
+
+message UserRequest {
+    string username = 1;
+}
+
+message Result{
+    string status = 1;
+    string error =2;
+    string message = 3;
+}
+
+message UserCreate {
+    string username = 1;
+    string name = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message SearchResponse {
+    string status = 1;
+    repeated Users available = 2;
+}
+
+message UserResponse {
+    string status = 1;
+    string username = 2;
+}
