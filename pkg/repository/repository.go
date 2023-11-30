@@ -14,7 +14,7 @@ type AdminServices struct {
 
 func (a *AdminServices) FetchAdmin(username string) (*DTO.Admin, error) {
 	var admin DTO.Admin
-	result := a.db.Where("user_name = ?", username).First(&admin)
+	result := a.db.Where("username = ?", username).First(&admin)
 	if result.Error != nil {
 		log.Print("Error while fetching admin")
 		return nil, result.Error
@@ -22,7 +22,7 @@ func (a *AdminServices) FetchAdmin(username string) (*DTO.Admin, error) {
 	return &admin, nil
 }
 
-func AdminService(db *gorm.DB) interfaces.AdminRepoInter {
+func AdminRepository(db *gorm.DB) interfaces.AdminRepoInter {
 	return &AdminServices{
 		db: db,
 	}

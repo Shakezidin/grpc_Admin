@@ -9,12 +9,12 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func ClientDial(cfg config.Config) (pb.UserServiceClient, error) {
-	grpc, err := grpc.Dial(":"+cfg.GRPCUSERPORT, grpc.WithTransportCredentials(insecure.NewCredentials()))
+func ClientDial(cfg *config.Config) (pb.AdminUserServiceClient, error) {
+	grpc, err := grpc.Dial(":"+cfg.GRPCUSERADMINPORT, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Printf("error Dialing to grpc client: %s, ", cfg.GRPCUSERPORT)
+		log.Printf("error Dialing to grpc client: %s, ", cfg.GRPCUSERADMINPORT)
 		return nil, err
 	}
-	log.Printf("succesfully Connected to Booking Client at port: %v", cfg.GRPCUSERPORT)
-	return pb.NewUserServiceClient(grpc), nil
+	log.Printf("succesfully Connected to Booking Client at port: %v", cfg.GRPCUSERADMINPORT)
+	return pb.NewAdminUserServiceClient(grpc), nil
 }

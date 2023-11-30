@@ -9,17 +9,21 @@ import (
 	"github.com/shakezidin/pkg/repository"
 	"github.com/shakezidin/pkg/server"
 	"github.com/shakezidin/pkg/service"
+	"github.com/shakezidin/pkg/user"
 )
 
 func Init() {
 	config := config.LoadConfig()
 	db := db.Database(config)
-	adminrepo := repository.AdminService(db)
-	adminService := service.AdminRepository(adminrepo)
-	adminHandler := handler.AdminHandler(adminService)
-	err := server.NewGrpcServer(config, adminHandler)
+	client, err := user.ClientDial(config)
 	if err != nil {
 		log.Fatalf("something went wrong", err)
 	}
-
+	adminrepo := repository.AdminRepository(db)
+	adminService := service.AdminService(adminrepo, client)
+	adminHandler := handler.AdminHandler(adminService, config)
+	err = server.NewGrpcServer(config, adminHandler)
+	if err != nil {
+		log.Fatalf("something went wrong", err)
+	}
 }

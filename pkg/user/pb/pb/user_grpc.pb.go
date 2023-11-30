@@ -19,237 +19,237 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	UserService_FetchAllSUser_FullMethodName = "/pb.UserService/FetchAllSUser"
-	UserService_DeleteUser_FullMethodName    = "/pb.UserService/DeleteUser"
-	UserService_CreateUser_FullMethodName    = "/pb.UserService/CreateUser"
-	UserService_SearchUser_FullMethodName    = "/pb.UserService/SearchUser"
-	UserService_EditUser_FullMethodName      = "/pb.UserService/EditUser"
+	AdminUserService_FetchAllSUser_FullMethodName = "/pb.AdminUserService/FetchAllSUser"
+	AdminUserService_DeleteUser_FullMethodName    = "/pb.AdminUserService/DeleteUser"
+	AdminUserService_CreateUser_FullMethodName    = "/pb.AdminUserService/CreateUser"
+	AdminUserService_SearchUser_FullMethodName    = "/pb.AdminUserService/SearchUser"
+	AdminUserService_EditUser_FullMethodName      = "/pb.AdminUserService/EditUser"
 )
 
-// UserServiceClient is the client API for UserService service.
+// AdminUserServiceClient is the client API for AdminUserService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type UserServiceClient interface {
+type AdminUserServiceClient interface {
 	FetchAllSUser(ctx context.Context, in *FetchUsers, opts ...grpc.CallOption) (*LoginResponce, error)
-	DeleteUser(ctx context.Context, in *DeleteUserById, opts ...grpc.CallOption) (*Result, error)
-	CreateUser(ctx context.Context, in *UserCreate, opts ...grpc.CallOption) (*Result, error)
+	DeleteUser(ctx context.Context, in *DeleteUserById, opts ...grpc.CallOption) (*AdminResult, error)
+	CreateUser(ctx context.Context, in *UserCreate, opts ...grpc.CallOption) (*AdminResult, error)
 	SearchUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*SearchResponse, error)
 	EditUser(ctx context.Context, in *Users, opts ...grpc.CallOption) (*UserResponse, error)
 }
 
-type userServiceClient struct {
+type adminUserServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
-	return &userServiceClient{cc}
+func NewAdminUserServiceClient(cc grpc.ClientConnInterface) AdminUserServiceClient {
+	return &adminUserServiceClient{cc}
 }
 
-func (c *userServiceClient) FetchAllSUser(ctx context.Context, in *FetchUsers, opts ...grpc.CallOption) (*LoginResponce, error) {
+func (c *adminUserServiceClient) FetchAllSUser(ctx context.Context, in *FetchUsers, opts ...grpc.CallOption) (*LoginResponce, error) {
 	out := new(LoginResponce)
-	err := c.cc.Invoke(ctx, UserService_FetchAllSUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, AdminUserService_FetchAllSUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserById, opts ...grpc.CallOption) (*Result, error) {
-	out := new(Result)
-	err := c.cc.Invoke(ctx, UserService_DeleteUser_FullMethodName, in, out, opts...)
+func (c *adminUserServiceClient) DeleteUser(ctx context.Context, in *DeleteUserById, opts ...grpc.CallOption) (*AdminResult, error) {
+	out := new(AdminResult)
+	err := c.cc.Invoke(ctx, AdminUserService_DeleteUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) CreateUser(ctx context.Context, in *UserCreate, opts ...grpc.CallOption) (*Result, error) {
-	out := new(Result)
-	err := c.cc.Invoke(ctx, UserService_CreateUser_FullMethodName, in, out, opts...)
+func (c *adminUserServiceClient) CreateUser(ctx context.Context, in *UserCreate, opts ...grpc.CallOption) (*AdminResult, error) {
+	out := new(AdminResult)
+	err := c.cc.Invoke(ctx, AdminUserService_CreateUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) SearchUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*SearchResponse, error) {
+func (c *adminUserServiceClient) SearchUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*SearchResponse, error) {
 	out := new(SearchResponse)
-	err := c.cc.Invoke(ctx, UserService_SearchUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, AdminUserService_SearchUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) EditUser(ctx context.Context, in *Users, opts ...grpc.CallOption) (*UserResponse, error) {
+func (c *adminUserServiceClient) EditUser(ctx context.Context, in *Users, opts ...grpc.CallOption) (*UserResponse, error) {
 	out := new(UserResponse)
-	err := c.cc.Invoke(ctx, UserService_EditUser_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, AdminUserService_EditUser_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// UserServiceServer is the server API for UserService service.
-// All implementations must embed UnimplementedUserServiceServer
+// AdminUserServiceServer is the server API for AdminUserService service.
+// All implementations must embed UnimplementedAdminUserServiceServer
 // for forward compatibility
-type UserServiceServer interface {
+type AdminUserServiceServer interface {
 	FetchAllSUser(context.Context, *FetchUsers) (*LoginResponce, error)
-	DeleteUser(context.Context, *DeleteUserById) (*Result, error)
-	CreateUser(context.Context, *UserCreate) (*Result, error)
+	DeleteUser(context.Context, *DeleteUserById) (*AdminResult, error)
+	CreateUser(context.Context, *UserCreate) (*AdminResult, error)
 	SearchUser(context.Context, *UserRequest) (*SearchResponse, error)
 	EditUser(context.Context, *Users) (*UserResponse, error)
-	mustEmbedUnimplementedUserServiceServer()
+	mustEmbedUnimplementedAdminUserServiceServer()
 }
 
-// UnimplementedUserServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedUserServiceServer struct {
+// UnimplementedAdminUserServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedAdminUserServiceServer struct {
 }
 
-func (UnimplementedUserServiceServer) FetchAllSUser(context.Context, *FetchUsers) (*LoginResponce, error) {
+func (UnimplementedAdminUserServiceServer) FetchAllSUser(context.Context, *FetchUsers) (*LoginResponce, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FetchAllSUser not implemented")
 }
-func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserById) (*Result, error) {
+func (UnimplementedAdminUserServiceServer) DeleteUser(context.Context, *DeleteUserById) (*AdminResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
-func (UnimplementedUserServiceServer) CreateUser(context.Context, *UserCreate) (*Result, error) {
+func (UnimplementedAdminUserServiceServer) CreateUser(context.Context, *UserCreate) (*AdminResult, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (UnimplementedUserServiceServer) SearchUser(context.Context, *UserRequest) (*SearchResponse, error) {
+func (UnimplementedAdminUserServiceServer) SearchUser(context.Context, *UserRequest) (*SearchResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchUser not implemented")
 }
-func (UnimplementedUserServiceServer) EditUser(context.Context, *Users) (*UserResponse, error) {
+func (UnimplementedAdminUserServiceServer) EditUser(context.Context, *Users) (*UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method EditUser not implemented")
 }
-func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
+func (UnimplementedAdminUserServiceServer) mustEmbedUnimplementedAdminUserServiceServer() {}
 
-// UnsafeUserServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to UserServiceServer will
+// UnsafeAdminUserServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AdminUserServiceServer will
 // result in compilation errors.
-type UnsafeUserServiceServer interface {
-	mustEmbedUnimplementedUserServiceServer()
+type UnsafeAdminUserServiceServer interface {
+	mustEmbedUnimplementedAdminUserServiceServer()
 }
 
-func RegisterUserServiceServer(s grpc.ServiceRegistrar, srv UserServiceServer) {
-	s.RegisterService(&UserService_ServiceDesc, srv)
+func RegisterAdminUserServiceServer(s grpc.ServiceRegistrar, srv AdminUserServiceServer) {
+	s.RegisterService(&AdminUserService_ServiceDesc, srv)
 }
 
-func _UserService_FetchAllSUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AdminUserService_FetchAllSUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FetchUsers)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).FetchAllSUser(ctx, in)
+		return srv.(AdminUserServiceServer).FetchAllSUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_FetchAllSUser_FullMethodName,
+		FullMethod: AdminUserService_FetchAllSUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FetchAllSUser(ctx, req.(*FetchUsers))
+		return srv.(AdminUserServiceServer).FetchAllSUser(ctx, req.(*FetchUsers))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AdminUserService_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteUserById)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).DeleteUser(ctx, in)
+		return srv.(AdminUserServiceServer).DeleteUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_DeleteUser_FullMethodName,
+		FullMethod: AdminUserService_DeleteUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).DeleteUser(ctx, req.(*DeleteUserById))
+		return srv.(AdminUserServiceServer).DeleteUser(ctx, req.(*DeleteUserById))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AdminUserService_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserCreate)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).CreateUser(ctx, in)
+		return srv.(AdminUserServiceServer).CreateUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_CreateUser_FullMethodName,
+		FullMethod: AdminUserService_CreateUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).CreateUser(ctx, req.(*UserCreate))
+		return srv.(AdminUserServiceServer).CreateUser(ctx, req.(*UserCreate))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_SearchUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AdminUserService_SearchUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).SearchUser(ctx, in)
+		return srv.(AdminUserServiceServer).SearchUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_SearchUser_FullMethodName,
+		FullMethod: AdminUserService_SearchUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).SearchUser(ctx, req.(*UserRequest))
+		return srv.(AdminUserServiceServer).SearchUser(ctx, req.(*UserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_EditUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AdminUserService_EditUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Users)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).EditUser(ctx, in)
+		return srv.(AdminUserServiceServer).EditUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: UserService_EditUser_FullMethodName,
+		FullMethod: AdminUserService_EditUser_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).EditUser(ctx, req.(*Users))
+		return srv.(AdminUserServiceServer).EditUser(ctx, req.(*Users))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
+// AdminUserService_ServiceDesc is the grpc.ServiceDesc for AdminUserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var UserService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.UserService",
-	HandlerType: (*UserServiceServer)(nil),
+var AdminUserService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "pb.AdminUserService",
+	HandlerType: (*AdminUserServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "FetchAllSUser",
-			Handler:    _UserService_FetchAllSUser_Handler,
+			Handler:    _AdminUserService_FetchAllSUser_Handler,
 		},
 		{
 			MethodName: "DeleteUser",
-			Handler:    _UserService_DeleteUser_Handler,
+			Handler:    _AdminUserService_DeleteUser_Handler,
 		},
 		{
 			MethodName: "CreateUser",
-			Handler:    _UserService_CreateUser_Handler,
+			Handler:    _AdminUserService_CreateUser_Handler,
 		},
 		{
 			MethodName: "SearchUser",
-			Handler:    _UserService_SearchUser_Handler,
+			Handler:    _AdminUserService_SearchUser_Handler,
 		},
 		{
 			MethodName: "EditUser",
-			Handler:    _UserService_EditUser_Handler,
+			Handler:    _AdminUserService_EditUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

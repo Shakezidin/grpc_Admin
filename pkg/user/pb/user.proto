@@ -4,10 +4,10 @@ package pb;
 
 option go_package = "github.com/shakezidin/pkg/user";
 
-service UserService{
+service AdminUserService{
     rpc FetchAllSUser(FetchUsers) returns(LoginResponce);
-    rpc DeleteUser(DeleteUserById) returns(Result);
-    rpc CreateUser(UserCreate) returns(Result);
+    rpc DeleteUser(DeleteUserById) returns(AdminResult);
+    rpc CreateUser(UserCreate) returns(AdminResult);
     rpc SearchUser(UserRequest) returns (SearchResponse);
     rpc EditUser(Users)  returns (UserResponse);
 }
@@ -38,7 +38,7 @@ message DeleteUserById{
     uint64 Id = 1;
 }
 
-message Result{
+message AdminResult{
     string status = 1;
     string error =2;
     string message = 3;

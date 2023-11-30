@@ -4,6 +4,7 @@ import (
 	"errors"
 	"log"
 
+	"github.com/shakezidin/config"
 	adminpb "github.com/shakezidin/pkg/pb/pb"
 	Repointer "github.com/shakezidin/pkg/repository/interfaces"
 	"github.com/shakezidin/pkg/service/interfaces"
@@ -13,10 +14,10 @@ import (
 
 type AdminServices struct {
 	adminRepo Repointer.AdminRepoInter
+	client    userpb.AdminUserServiceClient
 }
 
-func (a *AdminServices) AdminLogin(admn *adminpb.LoginRequest) (*adminpb.LoginResponce, error) {
-	var client userpb.UserServiceClient
+func (a *AdminServices) AdminLogin(admn *adminpb.LoginRequest, cnfg config.Config) (*adminpb.LoginResponce, error) {
 	admin, err := a.adminRepo.FetchAdmin(admn.Username)
 	if err != nil {
 		return nil, err
@@ -25,7 +26,11 @@ func (a *AdminServices) AdminLogin(admn *adminpb.LoginRequest) (*adminpb.LoginRe
 		log.Print("Password error")
 		return nil, errors.New("password error")
 	}
-	result, err := user.FetchAllSUser(client)
+	result, err := user.FetchAllSUserHandler(a.client)
+	if err != nil {
+		log.Print("fethcing error")
+		return nil, err
+	}
 	var users []*adminpb.User
 	for _, r := range result.Available {
 		users = append(users, &adminpb.User{
@@ -44,9 +49,9 @@ func (a *AdminServices) AdminLogin(admn *adminpb.LoginRequest) (*adminpb.LoginRe
 	return rstl, nil
 }
 
-func (a *AdminServices) CreateService(p *adminpb.User) (*adminpb.UserResponse, error) {
-	var client userpb.UserServiceClient
-	result, err := user.CreateUser(client, p)
+func (a *AdminServices) CreateService(p *adminpb.User, cnfg config.Config) (*adminpb.UserResponse, error) {
+
+	result, err := user.CreateUserHandler(a.client, p)
 	if err != nil {
 		return nil, err
 	}
@@ -57,9 +62,8 @@ func (a *AdminServices) CreateService(p *adminpb.User) (*adminpb.UserResponse, e
 	return rslt, nil
 }
 
-func (a *AdminServices) DeleteService(p *adminpb.DeleteUserRequest) (*adminpb.UserResponse, error) {
-	var client userpb.UserServiceClient
-	result, err := user.DeleteUser(client, p.Id)
+func (a *AdminServices) DeleteService(p *adminpb.DeleteUserRequest, cnfg config.Config) (*adminpb.UserResponse, error) {
+	result, err := user.DeleteUserHandler(a.client, p.Id)
 	if err != nil {
 		return nil, err
 	}
@@ -70,9 +74,8 @@ func (a *AdminServices) DeleteService(p *adminpb.DeleteUserRequest) (*adminpb.Us
 	return rslt, nil
 }
 
-func (a *AdminServices) SearchUserService(p *adminpb.UserRequest) (*adminpb.SearchResponse, error) {
-	var client userpb.UserServiceClient
-	result, err := user.SearchUser(client, p)
+func (a *AdminServices) SearchUserService(p *adminpb.UserRequest, cnfg config.Config) (*adminpb.SearchResponse, error) {
+	result, err := user.SearchUserHandler(a.client, p)
 	if err != nil {
 		return nil, err
 	}
@@ -93,8 +96,21 @@ func (a *AdminServices) SearchUserService(p *adminpb.UserRequest) (*adminpb.Sear
 	return rslt, nil
 }
 
-func AdminRepository(repo Repointer.AdminRepoInter) interfaces.AdminServiceInter {
+func (a *AdminServices) EditUserService(p *adminpb.User, cnfg config.Config) (*adminpb.UserResponse, error) {
+	result, err := user.EditUserHandler(a.client, p)
+	if err != nil {
+		return nil, err
+	}
+	rslt := &adminpb.UserResponse{
+		Status:   result.Status,
+		Username: result.Username,
+	}
+	return rslt, nil
+}
+
+func AdminService(repo Repointer.AdminRepoInter, client userpb.AdminUserServiceClient) interfaces.AdminServiceInter {
 	return &AdminServices{
 		adminRepo: repo,
+		client:    client,
 	}
 }
