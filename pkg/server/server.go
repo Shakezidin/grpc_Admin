@@ -7,7 +7,7 @@ import (
 
 	"github.com/shakezidin/config"
 	"github.com/shakezidin/pkg/handler"
-	pb "github.com/shakezidin/pkg/pb/pb"
+	adminpb "github.com/shakezidin/pkg/pb/pb"
 	"google.golang.org/grpc"
 )
 
@@ -20,7 +20,7 @@ func NewGrpcServer(config *config.Config, handler *handler.AdminHandlers) error{
 		return err
 	}
 	grp := grpc.NewServer()
-	pb.RegisterAdminServiceServer(grp, handler)
+	adminpb.RegisterAdminServiceServer(grp, handler)
 	if err != nil {
 		log.Println("error connecting to gRPC server")
 		return err

@@ -5,17 +5,17 @@ import (
 	"log"
 
 	"github.com/shakezidin/config"
-	admin "github.com/shakezidin/pkg/pb/pb"
+	adminpb "github.com/shakezidin/pkg/pb/pb"
 	"github.com/shakezidin/pkg/service/interfaces"
 )
 
 type AdminHandlers struct {
 	cnfg         *config.Config
 	AdminService interfaces.AdminServiceInter
-	admin.AdminServiceServer
+	adminpb.AdminServiceServer
 }
 
-func (a *AdminHandlers) AdminLogin(ctx context.Context, p *admin.LoginRequest) (*admin.LoginResponce, error) {
+func (a *AdminHandlers) AdminLogin(ctx context.Context, p *adminpb.LoginRequest) (*adminpb.LoginResponce, error) {
 	result, err := a.AdminService.AdminLogin(p, *a.cnfg)
 	if err != nil {
 		log.Print("Error while fetching all users")
@@ -24,7 +24,7 @@ func (a *AdminHandlers) AdminLogin(ctx context.Context, p *admin.LoginRequest) (
 	return result, nil
 }
 
-func (a *AdminHandlers) CreateUser(ctx context.Context, p *admin.User) (*admin.UserResponse, error) {
+func (a *AdminHandlers) CreateUser(ctx context.Context, p *adminpb.User) (*adminpb.UserResponse, error) {
 	result, err := a.AdminService.CreateService(p, *a.cnfg)
 	if err != nil {
 		log.Print("user creation error")
@@ -33,7 +33,7 @@ func (a *AdminHandlers) CreateUser(ctx context.Context, p *admin.User) (*admin.U
 	return result, nil
 }
 
-func (a *AdminHandlers) DeleteUser(ctx context.Context, p *admin.DeleteUserRequest) (*admin.UserResponse, error) {
+func (a *AdminHandlers) DeleteUser(ctx context.Context, p *adminpb.DeleteUserRequest) (*adminpb.UserResponse, error) {
 	result, err := a.AdminService.DeleteService(p, *a.cnfg)
 	if err != nil {
 		log.Print("Delete user error")
@@ -42,7 +42,7 @@ func (a *AdminHandlers) DeleteUser(ctx context.Context, p *admin.DeleteUserReque
 	return result, nil
 }
 
-func (a *AdminHandlers) SearchUser(ctx context.Context, p *admin.UserRequest) (*admin.SearchResponse, error) {
+func (a *AdminHandlers) SearchUser(ctx context.Context, p *adminpb.UserRequest) (*adminpb.SearchResponse, error) {
 	result, err := a.AdminService.SearchUserService(p, *a.cnfg)
 	if err != nil {
 		log.Print("Search user error")
@@ -51,7 +51,7 @@ func (a *AdminHandlers) SearchUser(ctx context.Context, p *admin.UserRequest) (*
 	return result, nil
 }
 
-func (a *AdminHandlers) EditUser(ctx context.Context, p *admin.User) (*admin.UserResponse, error) {
+func (a *AdminHandlers) EditUser(ctx context.Context, p *adminpb.User) (*adminpb.UserResponse, error) {
 	result, err := a.AdminService.EditUserService(p, *a.cnfg)
 	if err != nil {
 		log.Print("Search user error")

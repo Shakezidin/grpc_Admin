@@ -4,13 +4,13 @@ import (
 	"context"
 	"log"
 
-	admin "github.com/shakezidin/pkg/pb/pb"
-	user "github.com/shakezidin/pkg/user/pb/pb"
+	adminpb "github.com/shakezidin/pkg/pb/pb"
+	userpb "github.com/shakezidin/pkg/user/pb/pb"
 )
 
-func FetchAllSUserHandler(client user.AdminUserServiceClient) (*user.LoginResponce, error) {
+func FetchAllSUserHandler(client userpb.AdminUserServiceClient) (*userpb.LoginResponce, error) {
 	ctx := context.Background()
-	responce, err := client.FetchAllSUser(ctx, &user.FetchUsers{})
+	responce, err := client.FetchAllSUser(ctx, &userpb.FetchUsers{})
 	if err != nil {
 		log.Printf("error while fetching user ", err)
 		return nil, err
@@ -18,9 +18,9 @@ func FetchAllSUserHandler(client user.AdminUserServiceClient) (*user.LoginRespon
 	return responce, nil
 }
 
-func DeleteUserHandler(client user.AdminUserServiceClient, id uint64) (*user.AdminResult, error) {
+func DeleteUserHandler(client userpb.AdminUserServiceClient, id uint64) (*userpb.AdminResult, error) {
 	ctx := context.Background()
-	responce, err := client.DeleteUser(ctx, &user.DeleteUserById{
+	responce, err := client.DeleteUser(ctx, &userpb.DeleteUserById{
 		Id: id,
 	})
 	if err != nil {
@@ -30,9 +30,9 @@ func DeleteUserHandler(client user.AdminUserServiceClient, id uint64) (*user.Adm
 	return responce, nil
 }
 
-func CreateUserHandler(client user.AdminUserServiceClient, p *admin.User) (*user.AdminResult, error) {
+func CreateUserHandler(client userpb.AdminUserServiceClient, p *adminpb.User) (*userpb.AdminResult, error) {
 	ctx := context.Background()
-	responce, err := client.CreateUser(ctx, &user.UserCreate{
+	responce, err := client.CreateUser(ctx, &userpb.UserCreate{
 		Username: p.Username,
 		Name:     p.Name,
 		Email:    p.Email,
@@ -45,9 +45,9 @@ func CreateUserHandler(client user.AdminUserServiceClient, p *admin.User) (*user
 	return responce, nil
 }
 
-func SearchUserHandler(client user.AdminUserServiceClient, p *admin.UserRequest) (*user.SearchResponse, error) {
+func SearchUserHandler(client userpb.AdminUserServiceClient, p *adminpb.UserRequest) (*userpb.SearchResponse, error) {
 	ctx := context.Background()
-	responce, err := client.SearchUser(ctx, &user.UserRequest{
+	responce, err := client.SearchUser(ctx, &userpb.UserRequest{
 		Username: p.Username,
 	})
 	if err != nil {
@@ -57,9 +57,9 @@ func SearchUserHandler(client user.AdminUserServiceClient, p *admin.UserRequest)
 	return responce, nil
 }
 
-func EditUserHandler(client user.AdminUserServiceClient, p *admin.User) (*user.UserResponse, error) {
+func EditUserHandler(client userpb.AdminUserServiceClient, p *adminpb.User) (*userpb.UserResponse, error) {
 	ctx := context.Background()
-	responce, err := client.EditUser(ctx, &user.Users{
+	responce, err := client.EditUser(ctx, &userpb.Users{
 		Id:       p.Id,
 		Username: p.Username,
 		Name:     p.Name,
@@ -67,7 +67,7 @@ func EditUserHandler(client user.AdminUserServiceClient, p *admin.User) (*user.U
 		Password: p.Password,
 	})
 	if err != nil {
-		log.Print("Error while createing user")
+		log.Print("Error while updating user")
 		return nil, err
 	}
 	return responce, nil

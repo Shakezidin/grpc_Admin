@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/shakezidin/config"
+	"github.com/shakezidin/pkg/JWT"
 	adminpb "github.com/shakezidin/pkg/pb/pb"
 	Repointer "github.com/shakezidin/pkg/repository/interfaces"
 	"github.com/shakezidin/pkg/service/interfaces"
@@ -31,6 +32,12 @@ func (a *AdminServices) AdminLogin(admn *adminpb.LoginRequest, cnfg config.Confi
 		log.Print("fethcing error")
 		return nil, err
 	}
+
+	token, err := JWT.GenerateJWT(admn.Username, "admin")
+	if err != nil {
+		log.Print("Generate jwt error")
+		return nil, err
+	}
 	var users []*adminpb.User
 	for _, r := range result.Available {
 		users = append(users, &adminpb.User{
@@ -44,7 +51,7 @@ func (a *AdminServices) AdminLogin(admn *adminpb.LoginRequest, cnfg config.Confi
 	rstl := &adminpb.LoginResponce{
 		Status:    "success",
 		Available: users,
-		Token:     result.Token,
+		Token:     token,
 	}
 	return rstl, nil
 }
